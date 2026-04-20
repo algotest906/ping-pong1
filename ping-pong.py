@@ -9,6 +9,7 @@ clock = time.Clock()
 cards = list()
 x = 20
 game_over = False
+finish = False
 
 window.fill(BACK)
 
@@ -80,6 +81,9 @@ class Area():
     def colliderect(self,rect):
         return self.rect.colliderect(rect)
 
+font.init()
+lose = font.SysFont('Times new roman', 50)
+win = font.SysFont('Times new roman', 50)
 ball = Gamesprite('tenis_ball.png',325,350,50,50,3,-3,BACK)
 platform1 = Player('racket.png',10,300,20,100,0,5,BACK)
 platform2 = Player('racket.png',670,300,20,100,0,5,BACK)
@@ -88,19 +92,31 @@ while not game_over:
     for e in event.get():
         if e.type == QUIT:
             game_over = True
-    ball.f_color()
-    platform1.f_color()
-    platform2.f_color()
-    ball.update()
-    ball.reset()
-    platform1.update_left()
-    platform1.reset()
-    platform2.update_right()
-    platform2.reset()
+    if finish == False:
+        ball.f_color()
+        platform1.f_color()
+        platform2.f_color()
+        ball.update()
+        ball.reset()
+        platform1.update_left()
+        platform1.reset()
+        platform2.update_right()
+        platform2.reset()
+        display.update()
+        ball.touch()
+        platform1.touch()
+        platform2.touch()
+        if ball.rect.x <= 1:
+            lose_surface = lose.render('Left player, YOU LOSE!', True, (200,0,0))
+            window.blit(lose_surface,(100,300)) 
+            win_surface = win.render('Right player, YOU WIN!', True, (0,200,0))
+            window.blit(win_surface,(100,150))
+            finish = True
+        if ball.rect.x >= 649:
+            lose_surface = lose.render('Right player, YOU LOSE!', True, (200,0,0))
+            window.blit(lose_surface,(100,300)) 
+            win_surface = win.render('Left player, YOU WIN!', True, (0,200,0))
+            window.blit(win_surface,(100,150))
+            finish = True
     display.update()
-    ball.touch()
-    platform1.touch()
-    platform2.touch()
-    #if ball.rect.x <= 1 or ball.rect.x => 649:
-
     clock.tick(60)
