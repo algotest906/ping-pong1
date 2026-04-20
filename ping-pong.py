@@ -1,12 +1,11 @@
 from pygame import *
 from random import randint
-import time
 total = 0
 wait = 0
 init()
 window = display.set_mode((700, 500))
 BACK = (200,255,255)
-clock = Clock()
+clock = time.Clock()
 cards = list()
 x = 20
 
